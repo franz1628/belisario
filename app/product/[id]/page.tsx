@@ -2,15 +2,15 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  ShoppingBag, 
-  Star, 
-  Heart, 
-  Minus, 
-  Plus, 
-  ChevronLeft, 
-  Clock, 
-  Flame, 
+import {
+  ShoppingBag,
+  Star,
+  Heart,
+  Minus,
+  Plus,
+  ChevronLeft,
+  Clock,
+  Flame,
   Info,
   ChevronRight
 } from "lucide-react";
@@ -114,7 +114,7 @@ export default function ProductDetail() {
   const params = useParams();
   const id = params?.id as string;
   const product = products.find(p => p.id === id) || products[0]; // Fallback to first product if not found
-  
+
   const [quantity, setQuantity] = useState(1);
   const [activeImage, setActiveImage] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
@@ -128,10 +128,10 @@ export default function ProductDetail() {
   return (
     <div className="min-h-screen bg-white dark:bg-black font-sans selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
       <Navbar />
-      
+
       <main className="pt-24 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
+
           {/* Breadcrumbs */}
           <nav className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400 mb-8 pt-4">
             <Link href="/" className="hover:text-black dark:hover:text-white transition-colors">Inicio</Link>
@@ -142,13 +142,13 @@ export default function ProductDetail() {
           </nav>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
-            
+
             {/* Image Gallery */}
             <div className="flex flex-col-reverse md:flex-row gap-4 lg:sticky lg:top-32 lg:h-fit">
               {/* Thumbnails */}
               <div className="flex md:flex-col gap-4 overflow-x-auto md:overflow-y-auto w-full md:w-24 pb-2 md:pb-0 md:pr-2 scrollbar-hide">
                 {product.images.map((img, idx) => (
-                  <button 
+                  <button
                     key={idx}
                     onClick={() => setActiveImage(idx)}
                     className={`relative w-20 h-24 md:w-full md:h-32 flex-shrink-0 rounded-xl overflow-hidden ${activeImage === idx ? 'ring-2 ring-black dark:ring-white opacity-100' : 'opacity-60 hover:opacity-100'} transition-all`}
@@ -159,7 +159,7 @@ export default function ProductDetail() {
               </div>
 
               {/* Main Image */}
-              <div 
+              <div
                 className="relative aspect-square md:aspect-[4/5] w-full rounded-2xl md:rounded-3xl bg-gray-100 dark:bg-zinc-900 overflow-hidden group"
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
@@ -173,10 +173,10 @@ export default function ProductDetail() {
                     transition={{ duration: 0.4 }}
                     className="absolute inset-0"
                   >
-                    <Image 
-                      src={product.images[activeImage]} 
-                      alt={product.name} 
-                      fill 
+                    <Image
+                      src={product.images[activeImage]}
+                      alt={product.name}
+                      fill
                       className="object-cover"
                       priority
                     />
@@ -189,7 +189,7 @@ export default function ProductDetail() {
                     {product.badge}
                   </div>
                 )}
-                
+
                 {/* Favorite Button */}
                 <button className="absolute top-6 right-6 p-3 bg-white/50 hover:bg-white dark:bg-black/50 dark:hover:bg-black backdrop-blur-md rounded-full text-gray-900 dark:text-white transition-colors z-10 shadow-lg">
                   <Heart className="w-5 h-5" />
@@ -216,17 +216,17 @@ export default function ProductDetail() {
                   {product.category}
                 </span>
               </div>
-              
+
               <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white tracking-tight mb-4">
                 {product.name}
               </h1>
-              
+
               <div className="flex items-center space-x-4 mb-6">
                 <div className="flex items-center space-x-1">
                   {[...Array(5)].map((_, i) => (
-                    <Star 
-                      key={i} 
-                      className={`w-5 h-5 ${i < Math.floor(product.rating) ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300 dark:text-gray-700'}`} 
+                    <Star
+                      key={i}
+                      className={`w-5 h-5 ${i < Math.floor(product.rating) ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300 dark:text-gray-700'}`}
                     />
                   ))}
                   <span className="text-sm font-medium text-gray-900 dark:text-white ml-2">{product.rating}</span>
@@ -272,14 +272,14 @@ export default function ProductDetail() {
                 <div className="flex flex-col sm:flex-row gap-4">
                   {/* Quantity */}
                   <div className="flex items-center justify-between bg-white dark:bg-black rounded-xl border border-gray-200 dark:border-zinc-700 p-2 sm:w-1/3">
-                    <button 
+                    <button
                       onClick={decreaseQuantity}
                       className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-gray-600 dark:text-gray-400 transition-colors"
                     >
                       <Minus className="w-5 h-5" />
                     </button>
                     <span className="text-lg font-semibold w-12 text-center text-black dark:text-white">{quantity}</span>
-                    <button 
+                    <button
                       onClick={increaseQuantity}
                       className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-800 text-gray-600 dark:text-gray-400 transition-colors"
                     >
@@ -318,26 +318,26 @@ export default function ProductDetail() {
 
       {/* Related Products placeholder - simple line */}
       <section className="py-20 border-t border-gray-100 dark:border-zinc-800 bg-gray-50/50 dark:bg-zinc-950">
-         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-             <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-gray-900 dark:text-white mb-2">
-                 Te podría interesar
-             </h2>
-             <p className="text-gray-500 dark:text-gray-400 mb-12">
-                 Combina tu pedido con nuestras opciones favoritas
-             </p>
-             <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto">
-                 {/* Just showing next 3 products logically */}
-                 {products.filter(p => p.id !== product.id).slice(0, 3).map(related => (
-                    <Link href={`/product/${related.id}`} key={related.id} className="group block text-left">
-                        <div className="aspect-[4/5] relative rounded-2xl overflow-hidden mb-4 bg-gray-100 dark:bg-zinc-900 shadow-sm transition-all group-hover:shadow-xl group-hover:scale-[1.02] duration-300">
-                            <Image src={related.images[0]} alt={related.name} fill className="object-cover" />
-                        </div>
-                        <h4 className="font-semibold text-gray-900 dark:text-white group-hover:text-gray-500 transition-colors">{related.name}</h4>
-                        <p className="text-gray-500 dark:text-gray-400">S/ {related.price.toFixed(2)}</p>
-                    </Link>
-                 ))}
-             </div>
-         </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-gray-900 dark:text-white mb-2">
+            Te podría interesar
+          </h2>
+          <p className="text-gray-500 dark:text-gray-400 mb-12">
+            Combina tu pedido con nuestras opciones favoritas
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            {/* Just showing next 3 products logically */}
+            {products.filter(p => p.id !== product.id).slice(0, 3).map(related => (
+              <Link href={`/product/${related.id}`} key={related.id} className="group block text-left">
+                <div className="aspect-[4/5] relative rounded-2xl overflow-hidden mb-4 bg-gray-100 dark:bg-zinc-900 shadow-sm transition-all group-hover:shadow-xl group-hover:scale-[1.02] duration-300">
+                  <Image src={related.images[0]} alt={related.name} fill className="object-cover" />
+                </div>
+                <h4 className="font-semibold text-gray-900 dark:text-white group-hover:text-gray-500 transition-colors">{related.name}</h4>
+                <p className="text-gray-500 dark:text-gray-400">S/ {related.price.toFixed(2)}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
       </section>
 
       <Footer />
