@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { User, Mail, Lock, Eye, EyeOff, ArrowRight, CheckCircle2 } from "lucide-react";
+import { User, Mail, Lock, Eye, EyeOff, ArrowRight, CheckCircle2, ArrowLeft } from "lucide-react";
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -37,6 +37,17 @@ export default function RegisterPage() {
       {/* Decorative Circles */}
       <div className="absolute -top-24 -left-24 w-96 h-96 bg-red-600/20 rounded-full blur-3xl animate-pulse" />
       <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-orange-600/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }} />
+
+      {/* Back to Home Link */}
+      <Link 
+        href="/" 
+        className="absolute top-8 left-8 z-20 flex items-center gap-2 text-white/60 hover:text-white transition-colors group"
+      >
+        <div className="p-2 bg-white/5 backdrop-blur-md rounded-full border border-white/10 group-hover:bg-white/10 transition-colors">
+          <ArrowLeft size={18} />
+        </div>
+        <span className="text-sm font-medium tracking-wide">Volver al inicio</span>
+      </Link>
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}

@@ -24,6 +24,7 @@ export function Navbar() {
     { name: "Inicio", href: "/" },
     { name: "Carta", href: "/shop" },
     { name: "Categorías", href: "/categories" },
+    { name: "Locales", href: "/locales" },
     { name: "Nosotros", href: "/about" },
     { name: "Contacto", href: "/contact" },
   ];
@@ -68,9 +69,12 @@ export function Navbar() {
             <button className={`p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full ${isScrolled ? "text-gray-600 dark:text-gray-300" : "text-gray-900 dark:text-gray-100"}`}>
               <Search className="w-5 h-5" />
             </button>
-            <button className={`p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full ${isScrolled ? "text-gray-600 dark:text-gray-300" : "text-gray-900 dark:text-gray-100"}`}>
+            <Link 
+              href="/login"
+              className={`p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full ${isScrolled ? "text-gray-600 dark:text-gray-300" : "text-gray-900 dark:text-gray-100"}`}
+            >
               <User className="w-5 h-5" />
-            </button>
+            </Link>
             <Link 
               href="/cart"
               className={`p-2 relative transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full ${isScrolled ? "text-gray-600 dark:text-gray-300" : "text-gray-900 dark:text-gray-100"}`}
@@ -123,9 +127,13 @@ export function Navbar() {
               <button className="flex items-center text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white">
                 <Search className="w-5 h-5 mr-2" /> Buscar
               </button>
-              <button className="flex items-center text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white">
+              <Link 
+                href="/login"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white"
+              >
                 <User className="w-5 h-5 mr-2" /> Mi Cuenta
-              </button>
+              </Link>
               <Link 
                 href="/cart"
                 onClick={() => setIsMobileMenuOpen(false)}
