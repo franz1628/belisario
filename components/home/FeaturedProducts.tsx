@@ -1,10 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ShoppingBag, Star, Heart } from "lucide-react";
+import { ShoppingBag, Star, Heart, Check } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { useCart } from "@/context/CartContext";
 
 const products = [
   {
@@ -105,6 +106,14 @@ export function FeaturedProducts() {
 
 function ProductCard({ product, variants }: { product: any, variants: any }) {
   const [isHovered, setIsHovered] = useState(false);
+  const [isAdded, setIsAdded] = useState(false);
+  const { addItem } = useCart();
+
+  const handleAddToCart = () => {
+    addItem(product);
+    setIsAdded(true);
+    setTimeout(() => setIsAdded(false), 2000);
+  };
 
   return (
     <motion.div 
@@ -138,12 +147,26 @@ function ProductCard({ product, variants }: { product: any, variants: any }) {
         {/* Quick Add Overlay */}
         <div 
           className={`absolute bottom-0 left-0 right-0 p-4 transition-transform duration-300 ease-in-out ${
-            isHovered ? "translate-y-0" : "translate-y-full"
+            isHovered || isAdded ? "translate-y-0" : "translate-y-full"
           }`}
         >
-          <button className="w-full bg-black/90 dark:bg-white/90 backdrop-blur-sm text-white dark:text-black py-3 rounded-xl font-medium flex items-center justify-center space-x-2 hover:bg-black dark:hover:bg-white transition-colors shadow-lg">
-            <ShoppingBag className="w-4 h-4" />
-            <span>Añadir al Pedido</span>
+          <button 
+            onClick={handleAddToCart}
+            className={`w-full ${
+              isAdded ? "bg-green-600 text-white" : "bg-black/90 dark:bg-white/90"
+            } backdrop-blur-sm text-white dark:text-black py-3 rounded-xl font-medium flex items-center justify-center space-x-2 transition-all shadow-lg active:scale-95`}
+          >
+            {isAdded ? (
+              <>
+                <Check className="w-4 h-4" />
+                <span>¡Añadido!</span>
+              </>
+            ) : (
+              <>
+                <ShoppingBag className="w-4 h-4" />
+                <span>Añadir al Pedido</span>
+              </>
+            )}
           </button>
         </div>
       </div>

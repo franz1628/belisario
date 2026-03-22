@@ -4,11 +4,13 @@ import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { ShoppingCart, Search, User, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { useCart } from "@/context/CartContext";
 
 export function Navbar() {
   const { scrollY } = useScroll();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { totalItems } = useCart();
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     if (latest > 50) {
@@ -69,12 +71,17 @@ export function Navbar() {
             <button className={`p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full ${isScrolled ? "text-gray-600 dark:text-gray-300" : "text-gray-900 dark:text-gray-100"}`}>
               <User className="w-5 h-5" />
             </button>
-            <button className={`p-2 relative transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full ${isScrolled ? "text-gray-600 dark:text-gray-300" : "text-gray-900 dark:text-gray-100"}`}>
+            <Link 
+              href="/cart"
+              className={`p-2 relative transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full ${isScrolled ? "text-gray-600 dark:text-gray-300" : "text-gray-900 dark:text-gray-100"}`}
+            >
               <ShoppingCart className="w-5 h-5" />
-              <span className="absolute top-0 right-0 w-4 h-4 rounded-full bg-black text-white dark:bg-white dark:text-black text-[10px] flex items-center justify-center font-bold">
-                2
-              </span>
-            </button>
+              {totalItems > 0 && (
+                <span className="absolute top-0 right-0 w-4 h-4 rounded-full bg-black text-white dark:bg-white dark:text-black text-[10px] flex items-center justify-center font-bold">
+                  {totalItems}
+                </span>
+              )}
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -119,9 +126,13 @@ export function Navbar() {
               <button className="flex items-center text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white">
                 <User className="w-5 h-5 mr-2" /> Mi Cuenta
               </button>
-              <button className="flex items-center text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white">
-                <ShoppingCart className="w-5 h-5 mr-2" /> Carrito (2)
-              </button>
+              <Link 
+                href="/cart"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white"
+              >
+                <ShoppingCart className="w-5 h-5 mr-2" /> Carrito ({totalItems})
+              </Link>
             </div>
           </div>
         </motion.div>

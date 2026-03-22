@@ -3,13 +3,15 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { LogIn, Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
+import { User, Mail, Lock, Eye, EyeOff, ArrowRight, CheckCircle2 } from "lucide-react";
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
+    fullName: "",
     email: "",
     password: "",
+    confirmPassword: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,7 +21,8 @@ export default function LoginPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Logging in:", formData);
+    // Logic for registration would go here
+    console.log("Registering:", formData);
   };
 
   return (
@@ -32,8 +35,8 @@ export default function LoginPage() {
       <div className="absolute inset-0 z-0 bg-gradient-to-t from-black via-transparent to-black/60" />
 
       {/* Decorative Circles */}
-      <div className="absolute -top-24 -right-24 w-96 h-96 bg-red-600/20 rounded-full blur-3xl animate-pulse" />
-      <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-orange-600/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1.5s" }} />
+      <div className="absolute -top-24 -left-24 w-96 h-96 bg-red-600/20 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-orange-600/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }} />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -50,13 +53,32 @@ export default function LoginPage() {
                 transition={{ type: "spring", stiffness: 200, damping: 15 }}
                 className="inline-flex items-center justify-center w-16 h-16 bg-red-600 rounded-2xl mb-4 shadow-lg shadow-red-600/20"
               >
-                <LogIn className="w-8 h-8 text-white" />
+                <User className="w-8 h-8 text-white" />
               </motion.div>
-              <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">Bienvenido de nuevo</h1>
-              <p className="text-neutral-400">Ingresa a tu cuenta para continuar con tu pedido</p>
+              <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">Crea tu cuenta</h1>
+              <p className="text-neutral-400">Únete a la familia Belisario y disfruta del mejor sabor</p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-5">
+              {/* Full Name */}
+              <div className="space-y-1.5">
+                <label className="text-sm font-medium text-neutral-300 ml-1">Nombre Completo</label>
+                <div className="relative group">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-neutral-500 group-focus-within:text-red-500 transition-colors">
+                    <User size={18} />
+                  </div>
+                  <input
+                    type="text"
+                    name="fullName"
+                    value={formData.fullName}
+                    onChange={handleChange}
+                    required
+                    placeholder="Ej. Juan Pérez"
+                    className="block w-full pl-11 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:border-red-500 transition-all duration-200"
+                  />
+                </div>
+              </div>
+
               {/* Email */}
               <div className="space-y-1.5">
                 <label className="text-sm font-medium text-neutral-300 ml-1">Correo Electrónico</label>
@@ -78,12 +100,7 @@ export default function LoginPage() {
 
               {/* Password */}
               <div className="space-y-1.5">
-                <div className="flex justify-between items-center ml-1">
-                  <label className="text-sm font-medium text-neutral-300">Contraseña</label>
-                  <Link href="#" className="text-xs text-red-500 hover:text-red-400 transition-colors">
-                    ¿Olvidaste tu contraseña?
-                  </Link>
-                </div>
+                <label className="text-sm font-medium text-neutral-300 ml-1">Contraseña</label>
                 <div className="relative group">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-neutral-500 group-focus-within:text-red-500 transition-colors">
                     <Lock size={18} />
@@ -107,15 +124,37 @@ export default function LoginPage() {
                 </div>
               </div>
 
-              {/* Remember Me */}
-              <div className="flex items-center">
-                <input
-                  id="remember-me"
-                  type="checkbox"
-                  className="w-4 h-4 bg-white/5 border-white/10 rounded text-red-600 focus:ring-red-500 focus:ring-offset-neutral-900"
-                />
-                <label htmlFor="remember-me" className="ml-2 text-sm text-neutral-400">
-                  Recordarme en este dispositivo
+              {/* Confirm Password */}
+              <div className="space-y-1.5">
+                <label className="text-sm font-medium text-neutral-300 ml-1">Confirmar Contraseña</label>
+                <div className="relative group">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-neutral-500 group-focus-within:text-red-500 transition-colors">
+                    <Lock size={18} />
+                  </div>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    required
+                    placeholder="••••••••"
+                    className="block w-full pl-11 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:border-red-500 transition-all duration-200"
+                  />
+                </div>
+              </div>
+
+              {/* Terms Checkbox */}
+              <div className="flex items-start mt-2">
+                <div className="flex items-center h-5">
+                  <input
+                    id="terms"
+                    type="checkbox"
+                    required
+                    className="w-4 h-4 bg-white/5 border-white/10 rounded text-red-600 focus:ring-red-500 focus:ring-offset-neutral-900"
+                  />
+                </div>
+                <label htmlFor="terms" className="ml-2 text-sm text-neutral-400">
+                  Acepto los <Link href="#" className="text-red-500 hover:text-red-400 underline underline-offset-4">términos y condiciones</Link> y la <Link href="#" className="text-red-500 hover:text-red-400 underline underline-offset-4">política de privacidad</Link>.
                 </label>
               </div>
 
@@ -126,19 +165,31 @@ export default function LoginPage() {
                 type="submit"
                 className="w-full py-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl shadow-lg shadow-red-900/20 flex items-center justify-center gap-2 group transition-all"
               >
-                Iniciar Sesión
+                Registrarme
                 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
               </motion.button>
             </form>
 
             <div className="mt-8 pt-6 border-t border-white/10 text-center">
               <p className="text-neutral-400">
-                ¿No tienes una cuenta?{" "}
-                <Link href="/register" className="text-red-500 hover:text-red-400 font-semibold transition-colors">
-                  Regístrate aquí
+                ¿Ya tienes una cuenta?{" "}
+                <Link href="/login" className="text-red-500 hover:text-red-400 font-semibold transition-colors">
+                  Inicia sesión
                 </Link>
               </p>
             </div>
+          </div>
+        </div>
+        
+        {/* Benefits Footer */}
+        <div className="mt-8 grid grid-cols-2 gap-4">
+          <div className="flex items-center gap-2 text-xs text-neutral-400">
+            <CheckCircle2 size={14} className="text-red-500" />
+            <span>Delivery gratis en tu 1er pedido</span>
+          </div>
+          <div className="flex items-center gap-2 text-xs text-neutral-400">
+            <CheckCircle2 size={14} className="text-red-500" />
+            <span>Puntos por cada compra</span>
           </div>
         </div>
       </motion.div>
