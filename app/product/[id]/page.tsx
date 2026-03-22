@@ -12,13 +12,15 @@ import {
   Clock,
   Flame,
   Info,
-  ChevronRight
+  ChevronRight,
+  Check
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { useCart } from "@/context/CartContext";
 
 // Mock data extending what we have in FeaturedProducts
 const products = [
@@ -118,6 +120,14 @@ export default function ProductDetail() {
   const [quantity, setQuantity] = useState(1);
   const [activeImage, setActiveImage] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const [isAdded, setIsAdded] = useState(false);
+  const { addItem } = useCart();
+
+  const handleAddToCart = () => {
+    addItem(product, quantity);
+    setIsAdded(true);
+    setTimeout(() => setIsAdded(false), 2000);
+  };
 
   const increaseQuantity = () => setQuantity(prev => prev + 1);
   const decreaseQuantity = () => setQuantity(prev => (prev > 1 ? prev - 1 : 1));
@@ -288,9 +298,23 @@ export default function ProductDetail() {
                   </div>
 
                   {/* Add Button */}
-                  <button className="flex-1 bg-black dark:bg-white text-white dark:text-black py-4 rounded-xl font-medium flex items-center justify-center space-x-3 hover:bg-zinc-800 dark:hover:bg-gray-200 transition-colors shadow-xl shadow-black/10 dark:shadow-white/10 active:scale-[0.98] duration-200">
-                    <ShoppingBag className="w-5 h-5" />
-                    <span className="text-lg">Añadir al Pedido - S/ {(product.price * quantity).toFixed(2)}</span>
+                  <button 
+                    onClick={handleAddToCart}
+                    className={`flex-1 ${
+                      isAdded ? "bg-green-600" : "bg-black dark:bg-white"
+                    } text-white dark:text-black py-4 rounded-xl font-medium flex items-center justify-center space-x-3 transition-all shadow-xl active:scale-[0.98] duration-200`}
+                  >
+                    {isAdded ? (
+                      <>
+                        <Check className="w-5 h-5" />
+                        <span className="text-lg">¡Añadido al Pedido!</span>
+                      </>
+                    ) : (
+                      <>
+                        <ShoppingBag className="w-5 h-5" />
+                        <span className="text-lg">Añadir al Pedido - S/ {(product.price * quantity).toFixed(2)}</span>
+                      </>
+                    )}
                   </button>
                 </div>
               </div>
